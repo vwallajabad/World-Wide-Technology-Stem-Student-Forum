@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot UI</title>
+    <link rel="stylesheet" href="chatbot.css">
+</head>
+<body>
+    <div class="article">
+        <h1>Article Title</h1>
+        <p>This is where the article content will go. The chatbot below is for asking questions.</p>
+    </div>
+    <button class="chatbot-button" onclick="toggleChatbot()">💬</button>
+    <div class="chatbot-container" id="chatbot-container">
+        <div class="chat-header">
+            <span>Chat with CyberBuddy</span>
+            <button class="close-chatbot" onclick="closeChatbot()">✖</button>
+        </div>
+        <div class="chat-window" id="chat-window"></div>
+        <div class="chat-input">
+            <input type="text" id="user-input" placeholder="Ask a question...">
+            <button onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+    <script src="chatbot.js"></script>
+</body>
+</html>

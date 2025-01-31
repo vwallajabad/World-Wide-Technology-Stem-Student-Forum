@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cybersecurity</title>
+
+  <script defer src="/__/firebase/11.2.0/firebase-app-compat.js"></script>
+  <script defer src="/__/firebase/11.2.0/firebase-analytics-compat.js"></script>
+  <script defer src="/__/firebase/init.js?useEmulator=true"></script>
+  <link rel="stylesheet" href="chatbot.css">
+</head>
+
+<body>
+  <div id="output"></div>
+
+  <button class="chatbot-button" onclick="toggleChatbot()">💬</button>
+  <div class="chatbot-container" id="chatbot-container">
+      <div class="chat-header">
+          <span>Chat with CyberBuddy</span>
+          <button class="close-chatbot" onclick="closeChatbot()">✖</button>
+      </div>
+      <div class="chat-window" id="chat-window"></div>
+      <div class="chat-input">
+          <input type="text" id="user-input" placeholder="Ask a question...">
+          <button onclick="sendMessage()">Send</button>
+      </div>
+  </div>
+
+  <script>
+    function getURLParameter(name) {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get(name);
+    }
+
+    function decodeURL() {
+      let encodedText = document.getElementById("encodedInput").value;
+      let decodedText = decodeURIComponent(encodedText);
+      document.getElementById("output").innerHTML = decodedText;
+    }
+
+    window.onload = function () {
+      let urlText = getURLParameter('text');
+      if (urlText) {
+        let decodedText = decodeURIComponent(urlText);
+        document.getElementById("output").innerHTML = decodedText;
+      }
+    }
+    document.addEventListener('DOMContentLoaded', function () {
+
+      firebase.analytics();
+    });
+  </script>
+  <script src="chatbot.js"></script>
+</body>
+
+</html>
