@@ -10,6 +10,8 @@ function closeChatbot() {
     document.getElementById("chatbot-container").style.display = "none";
 }
 
+let conversationHistory = []; // Store chat history
+
 document.getElementById("user-input").addEventListener("keydown", function(event) {
     if (event.key === "Enter" && !event.shiftKey) {
         event.preventDefault();
@@ -19,21 +21,29 @@ document.getElementById("user-input").addEventListener("keydown", function(event
 
 async function sendMessage() {
     const inputField = document.getElementById("user-input");
-    const chatWindow = document.getElementById("chat-window");
     const userMessage = inputField.value.trim();
 
     if (!userMessage) return;
 
+    // Store user message in history
+    conversationHistory.push({ role: "user", content: userMessage });
+
+    // Display user message in chat
     appendMessage("user", userMessage);
 
-    const botResponse = await getBotResponse("Context: I am an AI cyber assistant named CyberBuddy. I am your best friend for all of your cyber questions! (keep it concise and straight to the point) USER:" + userMessage);
-    
+    // Call AI API
+    const botResponse = await getBotResponse();
+
+    // Store bot response in history
+    conversationHistory.push({ role: "bot", content: botResponse });
+
+    // Display bot response
     appendMessage("bot", botResponse);
 
     inputField.value = "";
 }
 
-async function getBotResponse(message) {
+async function getBotResponse() {
     try {
         const response = await fetch(API_URL, {
             method: "POST",
@@ -43,7 +53,7 @@ async function getBotResponse(message) {
             },
             body: JSON.stringify({
                 model: "meta-llama/llama-3.2-3b-instruct:free", // Choose an available model
-                messages: [{ role: "user", content: message }]
+                messages: conversationHistory, // Send entire chat history
             })
         });
 
@@ -61,7 +71,9 @@ function appendMessage(role, text) {
     const messageElement = document.createElement("div");
     const label = document.createElement("div");
 
-    // Apply Markdown parsing for bot messages
+    label.textContent = role === "user" ? "You:" : "CyberBuddy:";
+    label.classList.add("message-label");
+
     if (role === "bot") {
         messageElement.innerHTML = marked.parse(text);
     } else {
@@ -69,8 +81,7 @@ function appendMessage(role, text) {
     }
 
     messageElement.classList.add("message", role === "user" ? "user-message" : "bot-message");
-    
-    // Append label and message
+
     messageContainer.appendChild(label);
     messageContainer.appendChild(messageElement);
     messageContainer.classList.add("message-container");
