@@ -10,7 +10,12 @@ function closeChatbot() {
     document.getElementById("chatbot-container").style.display = "none";
 }
 
-let conversationHistory = []; // Store chat history
+let conversationHistory = [
+    {
+        role: "system",
+        content: "Context: I am an AI cyber assistant named CyberBuddy. I am your best friend for all of your cyber questions! (keep it concise and straight to the point)."
+    }
+];
 
 document.getElementById("user-input").addEventListener("keydown", function(event) {
     if (event.key === "Enter" && !event.shiftKey) {
@@ -25,19 +30,19 @@ async function sendMessage() {
 
     if (!userMessage) return;
 
-    // Store user message in history
+    
     conversationHistory.push({ role: "user", content: userMessage });
 
-    // Display user message in chat
+    
     appendMessage("user", userMessage);
 
-    // Call AI API
+    
     const botResponse = await getBotResponse();
 
-    // Store bot response in history
+    
     conversationHistory.push({ role: "bot", content: botResponse });
 
-    // Display bot response
+    
     appendMessage("bot", botResponse);
 
     inputField.value = "";
@@ -52,8 +57,8 @@ async function getBotResponse() {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                model: "meta-llama/llama-3.2-3b-instruct:free", // Choose an available model
-                messages: conversationHistory, // Send entire chat history
+                model: "meta-llama/llama-3.2-3b-instruct:free",
+                messages: conversationHistory 
             })
         });
 
