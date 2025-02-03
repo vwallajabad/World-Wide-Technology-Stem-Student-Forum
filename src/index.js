@@ -1,7 +1,7 @@
 require("dotenv").config();
+const fs = require("fs");
 const open = require("openai");
 const nodemailer = require("nodemailer");
-
 
 const openai = new open.OpenAI({
   baseURL: "https://openrouter.ai/api/v1",
@@ -32,10 +32,10 @@ async function generateEmailContent() {
           schema: {
             type: "object",
             properties: {
-              subject:    {   type: "string",   description: "Urgent subject line from a real company.",            },
-              sender:     {   type: "string",   description: "Legitimate-looking sender name and email.",           },
-              htmlcode:   {   type: "string",   description: "Full HTML email with urgency and CTA.",               },
-              htmlreport: {   type: "string",   description: "Standalone HTML document on spotting scam emails.",   },
+              subject:    { type: "string", description: "Urgent subject line from a real company." },
+              sender:     { type: "string", description: "Legitimate-looking sender name and email." },
+              htmlcode:   { type: "string", description: "Full HTML email with urgency and CTA." },
+              htmlreport: { type: "string", description: "Standalone HTML document on spotting scam emails." },
             },
             required: ["subject", "sender", "htmlcode", "htmlreport"],
             additionalProperties: false,
@@ -44,7 +44,6 @@ async function generateEmailContent() {
       },
     });
 
-    
     if (!completion || !completion.choices || completion.choices.length === 0) {
       throw new Error("Invalid response from OpenRouter");
     }
@@ -61,7 +60,21 @@ async function generateEmailContent() {
   }
 }
 
-async function sendEmail() {
+async function sendEmails() {
+  let emailList;
+  try {
+    const fileContent = fs.readFileSync("emails.txt", "utf-8");
+    emailList = fileContent.split("\n").map(email => email.trim()).filter(email => email);
+  } catch (error) {
+    console.error("Error reading emails.txt:", error);
+    return;
+  }
+
+  if (emailList.length === 0) {
+    console.error("No valid email addresses found.");
+    return;
+  }
+
   const data = await generateEmailContent();
   if (!data) return;
 
@@ -73,28 +86,29 @@ async function sendEmail() {
     },
   });
 
-
   const encodedHtmlReport = encodeURIComponent(data.htmlreport);
-
   const updatedHtmlCode = data.htmlcode.replace(
     "'https://example.com'",
     `https://wwt-stem-student-forum.web.app/?text=${encodedHtmlReport}`
   );
 
-  const mailOptions = {
-    from: data.sender,
-    to: process.env.EMAIL_RECEIVER,
-    subject: data.subject,
-    html: updatedHtmlCode,
-  };
+  for (const recipient of emailList) {
+    const mailOptions = {
+      from: data.sender,
+      to: recipient,
+      subject: data.subject,
+      html: updatedHtmlCode,
+    };
 
-  transporter.sendMail(mailOptions, (error, info) => {
-    if (error) {
-      console.log("Error sending email:", error);
-    } else {
-      console.log("Email sent successfully:", info.response);
+    try {
+      const info = await transporter.sendMail(mailOptions);
+      console.log(`Email sent to ${recipient}:`, info.response);
+    } catch (error) {
+      console.error(`Error sending to ${recipient}:`, error);
     }
-  });
+
+    await new Promise(resolve => setTimeout(resolve, 2000));
+  }
 }
 
-sendEmail();
+sendEmails();
