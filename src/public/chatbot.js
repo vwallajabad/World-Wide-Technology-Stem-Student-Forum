@@ -1,4 +1,4 @@
-const API_KEY = "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"; // Replace with your OpenRouter API key
+const API_KEY = "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"; // Replace with your OpenRouter API key
 const API_URL = "https://openrouter.ai/api/v1/chat/completions";
 
 function toggleChatbot() {

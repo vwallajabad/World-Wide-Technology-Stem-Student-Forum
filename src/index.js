@@ -15,14 +15,25 @@ async function generateEmailContent() {
       messages: [
         {
           role: "user",
-          content: `Generate a JSON object with the following structure:
-              {
-                  "subject": "A subject line that creates urgency.",
-                  "sender": "A sender name and email address.",
-                  "htmlcode": "A professional HTML email with urgency, inline CSS, a CTA linking to 'https://example.com'.",
-                  "htmlreport": "A standalone HTML document explaining how to spot scam emails with a link to 'https://example.com'."
-              }
-              Provide only the JSON output.`,
+          content: `"Generate a JavaScript data object in JSON format with the following structure and content:
+1. Subject: A subject line that creates urgency, e.g., 'Immediate Action Required: Unusual Login Activity Detected'. USE SOMETHING BUT THE EXAMPLE (I would like you to use real company names)
+2. Sender: A sender name and email address, e.g., 'Google Security Team <security@example.com>’. USE SOMETHING BUT THE EXAMPLE (I would like you to use real company names)
+3. HTML Code: A professional-looking HTML email template with:
+    * Use any website images or any assets on the internet. I want them to click the link!
+    * A header, content section, and footer.
+    * A sense of urgency in the message.
+    * A call-to-action button with a link to https://example.com (use “ for href).
+    * for links USE ONLY example.com no other link even if its for a / page. I will use a replace on the json string to put my link
+    * Styling using inline CSS.
+4. HTML Report: A standalone HTML document that explains how to spot scam emails, including:
+    * A list of common scam email characteristics.
+    * A link to https://example.com (use double quotes for href).
+    * Styling using inline CSS.
+I want you to give me just the  json format of the following "subject":
+"sender":
+"htmlcode":
+"htmlreport":
+`,
         },
       ],
       response_format: {
