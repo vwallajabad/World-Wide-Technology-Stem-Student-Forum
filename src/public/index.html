@@ -38,14 +38,12 @@
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       console.log("DOM fully loaded and parsed");
-
-
+  
       function getURLParameter(name) {
         const urlParams = new URLSearchParams(window.location.search);
         return urlParams.get(name);
       }
-
-
+  
       function decodeURL() {
         let encodedText = document.getElementById("encodedInput")?.value;
         if (encodedText) {
@@ -56,23 +54,32 @@
           }
         }
       }
-
-
+  
       window.onload = function () {
         let urlText = getURLParameter('text');
         if (urlText) {
           let decodedText = decodeURIComponent(urlText);
           document.getElementById("output").innerHTML = decodedText;
         }
-      }
+      };
+  
       document.addEventListener('DOMContentLoaded', function () {
-
-
         firebase.analytics();
       });
-    })
+  
+      function toggleChatbot() {
+        const chatbot = document.getElementById("chatbot-container");
+        const isOpening = chatbot.style.display === "none";
+  
+        chatbot.style.display = isOpening ? "block" : "none";
+  
+        if (isOpening) {
+          firebase.analytics().logEvent('chatbot_opened');
+        }
+      }
+    });
   </script>
-  <script src="chatbot.js"></script>
+    <script src="chatbot.js"></script>
 
 
 </body>

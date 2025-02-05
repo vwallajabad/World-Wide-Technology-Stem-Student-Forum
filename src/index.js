@@ -26,8 +26,8 @@ async function generateEmailContent() {
     * for links USE ONLY example.com no other link even if its for a / page. I will use a replace on the json string to put my link
     * Styling using inline CSS.
 4. HTML Report: A standalone HTML document that explains how to spot scam emails, including:
-    * A list of common scam email characteristics.
-    * A link to https://example.com (use double quotes for href).
+    * A list of common scam email characteristics and also specific ones to the one generated.
+    * DONT HAVE ANY LINKS
     * Styling using inline CSS.
 
 I want you to give me just the  json format of the following "subject":
