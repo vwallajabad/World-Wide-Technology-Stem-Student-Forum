@@ -1,11 +1,14 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Cybersecurity tips, chatbot assistance, and insights to help you stay safe online. Chat with CyberBuddy for expert guidance.">
   <title>Cybersecurity</title>
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
 
   <script defer src="/__/firebase/11.2.0/firebase-app-compat.js"></script>
   <script defer src="/__/firebase/11.2.0/firebase-analytics-compat.js"></script>
@@ -13,8 +16,10 @@
   <link rel="stylesheet" href="chatbot.css">
 </head>
 
+
 <body>
   <div id="output"></div>
+
 
   <button class="chatbot-button" onclick="toggleChatbot()">💬</button>
   <div class="chatbot-container" id="chatbot-container">
@@ -29,31 +34,46 @@
       </div>
   </div>
 
+
   <script>
-    function getURLParameter(name) {
-      const urlParams = new URLSearchParams(window.location.search);
-      return urlParams.get(name);
-    }
-
-    function decodeURL() {
-      let encodedText = document.getElementById("encodedInput").value;
-      let decodedText = decodeURIComponent(encodedText);
-      document.getElementById("output").innerHTML = decodedText;
-    }
-
-    window.onload = function () {
-      let urlText = getURLParameter('text');
-      if (urlText) {
-        let decodedText = decodeURIComponent(urlText);
-        document.getElementById("output").innerHTML = decodedText;
-      }
-    }
     document.addEventListener('DOMContentLoaded', function () {
+      console.log("DOM fully loaded and parsed");
 
-      firebase.analytics();
-    });
+
+      function getURLParameter(name) {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get(name);
+      }
+
+
+      function decodeURL() {
+        let encodedText = document.getElementById("encodedInput")?.value;
+        if (encodedText) {
+          let decodedText = decodeURIComponent(encodedText);
+          let outputElement = document.getElementById("output");
+          if (outputElement) {
+            outputElement.innerHTML = decodedText;
+          }
+        }
+      }
+
+
+      window.onload = function () {
+        let urlText = getURLParameter('text');
+        if (urlText) {
+          let decodedText = decodeURIComponent(urlText);
+          document.getElementById("output").innerHTML = decodedText;
+        }
+      }
+      document.addEventListener('DOMContentLoaded', function () {
+
+
+        firebase.analytics();
+      });
+    })
   </script>
   <script src="chatbot.js"></script>
-</body>
 
+
+</body>
 </html>

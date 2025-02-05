@@ -1,0 +1,9 @@
+User-agent: *  
+Disallow: /private/  # Prevents access to private directory  
+Disallow: /admin/  # Blocks admin panel from being indexed  
+
+
+Allow: /  # Allows all other pages  
+
+
+Sitemap: https://wwt-stem-student-forum.web.app/sitemap.xml  # Add sitemap for better indexing
