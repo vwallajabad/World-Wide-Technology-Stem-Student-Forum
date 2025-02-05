@@ -17,7 +17,7 @@ label {
     position: fixed;
     bottom: 20px;
     right: 20px;
-    width: 400px;
+    width: calc(100% - 75px);
     background: #fff;
     border: 1px solid #ccc;
     padding: 10px;
@@ -127,3 +127,8 @@ label {
 
 
 
+@media screen and (min-width: 768px) {
+    .chatbot-container {
+      width: 400px !important;
+    }
+  }
