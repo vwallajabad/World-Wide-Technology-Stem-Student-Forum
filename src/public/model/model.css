@@ -9,6 +9,11 @@ body {
     padding: 10px;
 }
 
+#header{
+    position:absolute;
+    top: 40px;
+}
+
 .chat-container {
     width: calc(100vw - 15%);
     height: calc(100vh - 30%);

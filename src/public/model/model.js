@@ -102,3 +102,12 @@ document.getElementById("userInput").addEventListener("keydown", function (event
         sendMessage();
     }
 });
+
+var app = document.getElementById('header');
+
+var typewriter = new Typewriter(app, {
+    loop: false,
+    cursor: "_"
+});
+
+typewriter.typeString('CyberBuddy').start()
