@@ -4,7 +4,7 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-color: black;
+    background-color: #f1f1f1;
     margin: 0;
     padding: 10px;
 }
@@ -52,7 +52,6 @@ body {
     font-size: 14px;
 }
 
-/* Send button */
 .input-container button {
     padding: 10px 15px;
     border: none;
@@ -69,7 +68,6 @@ body {
     background: #0056b3;
 }
 
-/* Message formatting */
 .message-container {
     margin-bottom: 10px;
     display: flex;
@@ -83,16 +81,15 @@ body {
 }
 
 .user-message {
-    color: #007bff;
+    color: #0056b3;
     align-self: flex-start;
 }
 
 .bot-message {
-    color: #28a745;
+    color: #0056b3;
     align-self: flex-start;
 }
 
-/* Mobile-specific styles */
 @media screen and (max-width: 768px) {
     .chat-container {
         width: 100%;
