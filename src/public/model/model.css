@@ -1,0 +1,119 @@
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: black;
+    margin: 0;
+    padding: 10px;
+}
+
+.chat-container {
+    width: calc(100vw - 15%);
+    height: calc(100vh - 30%);
+    background: white;
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+}
+
+.messages {
+    flex: 1;
+    overflow-y: auto;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 10px;
+    padding: 10px;
+    max-height: 60vh;
+    word-wrap: break-word;
+}
+
+/* Chat input container */
+.input-container {
+    display: flex;
+    align-items: center;
+    background: #f1f1f1;
+    border-radius: 25px;
+    padding: 5px;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Input field */
+.input-container input {
+    flex: 1;
+    padding: 12px;
+    border: none;
+    background: transparent;
+    outline: none;
+    border-radius: 25px;
+    font-size: 14px;
+}
+
+/* Send button */
+.input-container button {
+    padding: 10px 15px;
+    border: none;
+    background: #007bff;
+    color: white;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-left: 5px;
+    transition: background 0.3s ease;
+}
+
+.input-container button:hover {
+    background: #0056b3;
+}
+
+/* Message formatting */
+.message-container {
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    word-wrap: break-word;
+}
+
+.message-label {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.user-message {
+    color: #007bff;
+    align-self: flex-start;
+}
+
+.bot-message {
+    color: #28a745;
+    align-self: flex-start;
+}
+
+/* Mobile-specific styles */
+@media screen and (max-width: 768px) {
+    .chat-container {
+        width: 100%;
+        height: 60vh;
+        padding: 15px;
+    }
+
+    .messages {
+        max-height: 65vh;
+    }
+
+    .input-container {
+        padding: 8px;
+    }
+
+    .input-container input {
+        font-size: 14px;
+    }
+
+    .input-container button {
+        font-size: 14px;
+        padding: 8px 12px;
+    }
+}
