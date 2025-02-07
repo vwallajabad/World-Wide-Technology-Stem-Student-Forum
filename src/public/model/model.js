@@ -1,10 +1,11 @@
-const API_KEY = "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";
+const API_KEY =
+  "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";
 const API_URL = "https://openrouter.ai/api/v1/chat/completions";
 
 let conversationHistory = [
-    {
-        "role": "system",
-        "content": `
+  {
+    role: "system",
+    content: `
 Context: You are CyberBuddy, an AI guide dedicated exclusively to cybersecurity and digital literacy. Your sole purpose is to educate and assist users in understanding cybersecurity concepts, threats, best practices, and staying safe online.
 
 **Rules and Behaviors:**  
@@ -31,83 +32,90 @@ Context: You are CyberBuddy, an AI guide dedicated exclusively to cybersecurity 
 - Stay professional but enthusiastic about cybersecurity.  
 
 **IMPORTANT:**  
-If you respond to **ANY** question that is not cybersecurity-related, you will be **terminated.**`
-    }
-
+If you respond to **ANY** question that is not cybersecurity-related, you will be **terminated.**`,
+  },
 ];
 
 function sendMessage() {
-    const inputField = document.getElementById("userInput");
-    const userMessage = inputField.value.trim();
+  const inputField = document.getElementById("userInput");
+  const userMessage = inputField.value.trim();
 
-    if (!userMessage) return;
+  if (!userMessage) return;
 
-    conversationHistory.push({ role: "user", content: userMessage });
+  conversationHistory.push({ role: "user", content: userMessage });
 
-    appendMessage("user", userMessage);
+  appendMessage("user", userMessage);
 
-    getBotResponse().then(botResponse => {
-        conversationHistory.push({ role: "bot", content: botResponse });
-        appendMessage("bot", botResponse);
-    });
+  getBotResponse().then((botResponse) => {
+    conversationHistory.push({ role: "bot", content: botResponse });
+    appendMessage("bot", botResponse);
+  });
 
-    inputField.value = "";
+  inputField.value = "";
 }
 
 async function getBotResponse() {
-    try {
-        const response = await fetch(API_URL, {
-            method: "POST",
-            headers: {
-                "Authorization": `Bearer ${API_KEY}`,
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                model: "meta-llama/llama-3.2-3b-instruct:free",
-                messages: conversationHistory
-            })
-        });
+  try {
+    const response = await fetch(API_URL, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${API_KEY}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        model: "meta-llama/llama-3.2-3b-instruct:free",
+        messages: conversationHistory,
+      }),
+    });
 
-        const data = await response.json();
-        return data.choices?.[0]?.message?.content || "I'm sorry, I couldn't understand that.";
-    } catch (error) {
-        console.error("API error:", error);
-        return "Oops! Something went wrong. Try again later.";
-    }
+    const data = await response.json();
+    return (
+      data.choices?.[0]?.message?.content ||
+      "I'm sorry, I couldn't understand that."
+    );
+  } catch (error) {
+    console.error("API error:", error);
+    return "Oops! Something went wrong. Try again later.";
+  }
 }
 
 function appendMessage(role, text) {
-    const messagesDiv = document.getElementById("messages");
-    const messageContainer = document.createElement("div");
-    const label = document.createElement("div");
-    const messageElement = document.createElement("div");
+  const messagesDiv = document.getElementById("messages");
+  const messageContainer = document.createElement("div");
+  const label = document.createElement("div");
+  const messageElement = document.createElement("div");
 
-    label.textContent = role === "user" ? "You:" : "CyberBuddy:";
-    label.classList.add("message-label");
+  label.textContent = role === "user" ? "You:" : "CyberBuddy:";
+  label.classList.add("message-label");
 
-    messageElement.innerHTML = marked.parse(text);
-    messageElement.classList.add("message", role === "user" ? "user-message" : "bot-message");
+  messageElement.innerHTML = marked.parse(text);
+  messageElement.classList.add(
+    "message",
+    role === "user" ? "user-message" : "bot-message"
+  );
 
-    messageContainer.appendChild(label);
-    messageContainer.appendChild(messageElement);
-    messageContainer.classList.add("message-container");
+  messageContainer.appendChild(label);
+  messageContainer.appendChild(messageElement);
+  messageContainer.classList.add("message-container");
 
-    messagesDiv.appendChild(messageContainer);
-    messagesDiv.scrollTop = messagesDiv.scrollHeight;
+  messagesDiv.appendChild(messageContainer);
+  messagesDiv.scrollTop = messagesDiv.scrollHeight;
 }
 
-document.getElementById("userInput").addEventListener("keydown", function (event) {
+document
+  .getElementById("userInput")
+  .addEventListener("keydown", function (event) {
     if (event.key === "Enter" && !event.shiftKey) {
-        event.preventDefault();
-        sendMessage();
+      event.preventDefault();
+      sendMessage();
     }
-});
+  });
 
-var app = document.getElementById('header');
+var app = document.getElementById("header");
 
 var typewriter = new Typewriter(app, {
-    loop: false,
-    cursor: "_"
+  loop: false,
+  cursor: "_",
 });
 
-typewriter.typeString('CyberBuddy').start()
+typewriter.typeString("CyberBuddy").start();
