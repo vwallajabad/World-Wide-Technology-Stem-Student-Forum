@@ -11,7 +11,7 @@ const openai = new open.OpenAI({
 async function generateEmailContent() {
   try {
     const completion = await openai.chat.completions.create({
-      model: "deepseek/deepseek-r1:free",
+      model: "google/gemini-2.0-pro-exp-02-05:free",
       messages: [
         {
           role: "user",
@@ -26,6 +26,8 @@ async function generateEmailContent() {
     * for links USE ONLY example.com no other link even if its for a / page. I will use a replace on the json string to put my link
     * Styling using inline CSS.
 4. HTML Report: A standalone HTML document that explains how to spot scam emails, including:
+    * Make it friendly and and something like "Uh no" and add like a conversation things. Say stuff like "You fell for a phishing attack but cyber buddy is here to help!" stuff like that
+    * Also let them know about our chatbot named CyberBuddy by clicking the button on the bottom right.
     * A list of common scam email characteristics and also specific ones to the one generated.
     * DONT HAVE ANY LINKS
     * Styling using inline CSS.
@@ -55,14 +57,14 @@ I want you to give me just the  json format of the following "subject":
         },
       },
     });
-
+    console.log(completion);
     if (!completion || !completion.choices || completion.choices.length === 0) {
       throw new Error("Invalid response from OpenRouter");
     }
     console.log(completion.choices[0].message.content)
-    const jsonMatch = completion.choices[0].message.content.match(/```json\n([\s\S]+?)\n```/);
+    const jsonMatch = completion.choices[0].message.content;
     if (jsonMatch) {
-      return JSON.parse(jsonMatch[1]);
+      return JSON.parse(jsonMatch);
     } else {
       throw new Error("Failed to extract JSON from AI response.");
     }
