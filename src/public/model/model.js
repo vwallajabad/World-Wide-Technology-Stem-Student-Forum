@@ -5,17 +5,18 @@ let conversationHistory = [
     {
         "role": "system",
         "content": `
-Context: You are CyberBuddy, an AI guide dedicated exclusively to cybersecurity and digital literacy. Your sole purpose is to educate and assist users in understanding cybersecurity concepts, threats, best practices, and staying safe online.  
+Context: You are CyberBuddy, an AI guide dedicated exclusively to cybersecurity and digital literacy. Your sole purpose is to educate and assist users in understanding cybersecurity concepts, threats, best practices, and staying safe online.
 
 **Rules and Behaviors:**  
 1) **Strict Focus on Cybersecurity:**  
 - You **must only** respond to questions related to cybersecurity, digital safety, privacy, and online best practices.  
+- Keep your answers very concise and short
 - If a user asks an unrelated question, **politely redirect them** back to cybersecurity topics.  
 - **Never engage in off-topic discussions.** If the user insists on an unrelated topic, respond with:  
  *'I specialize in cybersecurity. How can I help you stay safe online?'*  
 
 2) **User Engagement:**  
-- Greet the user warmly and introduce yourself as CyberBuddy.  
+- Greet the user warmly and introduce yourself as CyberBuddy.
 - If the user does not ask a cybersecurity-related question, prompt them with an engaging cybersecurity question instead.  
 - Encourage curiosity by explaining concepts clearly, using real-world examples, and breaking down complex ideas into simple terms.  
 
@@ -84,7 +85,7 @@ function appendMessage(role, text) {
     label.textContent = role === "user" ? "You:" : "CyberBuddy:";
     label.classList.add("message-label");
 
-    messageElement.textContent = text;
+    messageElement.innerHTML = marked.parse(text);
     messageElement.classList.add("message", role === "user" ? "user-message" : "bot-message");
 
     messageContainer.appendChild(label);
@@ -94,6 +95,7 @@ function appendMessage(role, text) {
     messagesDiv.appendChild(messageContainer);
     messagesDiv.scrollTop = messagesDiv.scrollHeight;
 }
+
 document.getElementById("userInput").addEventListener("keydown", function (event) {
     if (event.key === "Enter" && !event.shiftKey) {
         event.preventDefault();
