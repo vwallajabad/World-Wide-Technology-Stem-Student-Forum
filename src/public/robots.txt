@@ -6,4 +6,4 @@ Disallow: /firebase/
 Allow: /model
 
 
-Sitemap: https://wwt-stem-student-forum.web.app/sitemap.xml  # Add sitemap for better indexing
+Sitemap: https://wwt-stem-student-forum.web.app/sitemap.xml

@@ -1,86 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
 
-
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Cybersecurity tips, chatbot assistance, and insights to help you stay safe online. Chat with CyberBuddy for expert guidance.">
-  <title>Cybersecurity</title>
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-
-
-  <script defer src="/__/firebase/11.2.0/firebase-app-compat.js"></script>
-  <script defer src="/__/firebase/11.2.0/firebase-analytics-compat.js"></script>
-  <script defer src="/__/firebase/init.js?useEmulator=true"></script>
-  <link rel="stylesheet" href="chatbot.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CyberBuddy | Chat</title>
+    <link rel="stylesheet" href="chatbot.css">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://unpkg.com/typewriter-effect@2.3.1/dist/core.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-analytics.js"></script>
 </head>
 
-
 <body>
-  <div id="output"></div>
+    <h1 id="header"></h1>
+    
+    <div class="chat-container" id="chatbot-container">
+        <div class="messages" id="messages"></div>
+        <div class="input-container">
+            <input type="text" id="userInput" placeholder="Message CyberBuddy...">
+            <button onclick="sendMessage()">Send</button>
+        </div>
+    </div>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            console.log("DOM fully loaded and parsed");
 
-  <button class="chatbot-button" onclick="toggleChatbot()">💬</button>
-  <div class="chatbot-container" id="chatbot-container">
-      <div class="chat-header">
-          <span>Chat with CyberBuddy</span>
-          <button class="close-chatbot" onclick="closeChatbot()">✖</button>
-      </div>
-      <div class="chat-window" id="chat-window"></div>
-      <div class="chat-input">
-          <input type="text" id="user-input" placeholder="Ask a question...">
-          <button onclick="sendMessage()">Send</button>
-      </div>
-  </div>
+            function getURLParameter(name) {
+                const urlParams = new URLSearchParams(window.location.search);
+                return urlParams.get(name);
+            }
 
+            function decodeURL() {
+                let encodedText = document.getElementById("encodedInput")?.value;
+                if (encodedText) {
+                    let decodedText = decodeURIComponent(encodedText);
+                    let messagesElement = document.getElementById("messages");
+                    if (messagesElement) {
+                        messagesElement.innerHTML = decodedText;
+                    }
+                }
+            }
 
-  <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      console.log("DOM fully loaded and parsed");
-  
-      function getURLParameter(name) {
-        const urlParams = new URLSearchParams(window.location.search);
-        return urlParams.get(name);
-      }
-  
-      function decodeURL() {
-        let encodedText = document.getElementById("encodedInput")?.value;
-        if (encodedText) {
-          let decodedText = decodeURIComponent(encodedText);
-          let outputElement = document.getElementById("output");
-          if (outputElement) {
-            outputElement.innerHTML = decodedText;
-          }
-        }
-      }
-  
-      window.onload = function () {
-        let urlText = getURLParameter('text');
-        if (urlText) {
-          let decodedText = decodeURIComponent(urlText);
-          document.getElementById("output").innerHTML = decodedText;
-        }
-      };
-  
-      document.addEventListener('DOMContentLoaded', function () {
-        firebase.analytics();
-      });
-  
-      function toggleChatbot() {
-        const chatbot = document.getElementById("chatbot-container");
-        const isOpening = chatbot.style.display === "none";
-  
-        chatbot.style.display = isOpening ? "block" : "none";
-  
-        if (isOpening) {
-          firebase.analytics().logEvent('chatbot_opened');
-        }
-      }
-    });
-  </script>
+            window.onload = function () {
+                let urlText = getURLParameter('text');
+                if (urlText) {
+                    let decodedText = decodeURIComponent(urlText);
+                    document.getElementById("messages").innerHTML = decodedText;
+                }
+            };
+
+            if (window.firebase) {
+                firebase.analytics();
+            }
+        });
+    </script>
+
     <script src="chatbot.js"></script>
-
-
 </body>
+
 </html>

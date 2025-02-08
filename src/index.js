@@ -39,6 +39,11 @@ I want you to give me just the  json format of the following "subject":
 `,
         },
       ],
+      'provider': {
+        'order': [
+          'Google'
+        ],
+        },
       response_format: {
         type: "json_schema",
         json_schema: {

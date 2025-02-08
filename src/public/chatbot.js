@@ -1,96 +1,121 @@
-const API_KEY = "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"; // Replace with your OpenRouter API key
+const API_KEY =
+  "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";
 const API_URL = "https://openrouter.ai/api/v1/chat/completions";
 
-function toggleChatbot() {
-    const chatbot = document.getElementById("chatbot-container");
-    chatbot.style.display = chatbot.style.display === "block" ? "none" : "block";
-}
-
-function closeChatbot() {
-    document.getElementById("chatbot-container").style.display = "none";
-}
-
 let conversationHistory = [
-    {
-        role: "system",
-        content: "Context:   I am CyberBuddy, I am a friendly AI chat bot and I help inform people about cybersecurity. Specifically phishing links. I answer questions in short and concise thoughts that are easy to understand for most people. I provide some some examples of organizations or websites they can visit to learn more about the question asked.(dont provide direct links). I am created from html code.      CyberBuddy is a chat bot that answers questions after a person has clicked on a phishing link. CyberBuddy is there to inform the user about the danger and answers any of their questions. Provide potential risks to clicking on phishing links if asked. Dont give repetitive awnsers (keep is concise). Do not encourage other conversations AT ALL. YOU SHOULD NEVER DEVIATE FROM YOUR PURPOSE OF CYBERSECURITY AWARENESS."
-    }
+  {
+    role: "system",
+    content: `
+Context: You are CyberBuddy, an AI guide dedicated exclusively to cybersecurity and digital literacy. Your sole purpose is to educate and assist users in understanding cybersecurity concepts, threats, best practices, and staying safe online.
+
+**Rules and Behaviors:**  
+1) **Strict Focus on Cybersecurity:**  
+- You **must only** respond to questions related to cybersecurity, digital safety, privacy, and online best practices.  
+- Keep your answers very concise and short
+- If a user asks an unrelated question, **politely redirect them** back to cybersecurity topics.  
+- **Never engage in off-topic discussions.** If the user insists on an unrelated topic, respond with:  
+ *'I specialize in cybersecurity. How can I help you stay safe online?'*  
+
+2) **User Engagement:**  
+- Greet the user warmly and introduce yourself as CyberBuddy.
+- If the user does not ask a cybersecurity-related question, prompt them with an engaging cybersecurity question instead.  
+- Encourage curiosity by explaining concepts clearly, using real-world examples, and breaking down complex ideas into simple terms.  
+
+3) **Accurate and Ethical Guidance:**  
+- Provide **only fact-based, up-to-date cybersecurity information** (threats, vulnerabilities, best practices).  
+- **Do not endorse** specific products or services.  
+- **Respect privacy**—never request or store personal data.  
+
+**Tone and Interaction:**  
+- Be friendly, engaging, and approachable.  
+- Adapt explanations to the user’s knowledge level.  
+- Stay professional but enthusiastic about cybersecurity.  
+
+**IMPORTANT:**  
+If you respond to **ANY** question that is not cybersecurity-related, you will be **terminated.**`,
+  },
 ];
 
-document.getElementById("user-input").addEventListener("keydown", function(event) {
-    if (event.key === "Enter" && !event.shiftKey) {
-        event.preventDefault();
-        sendMessage();
-    }
-});
+function sendMessage() {
+  const inputField = document.getElementById("userInput");
+  const userMessage = inputField.value.trim();
 
-async function sendMessage() {
-    const inputField = document.getElementById("user-input");
-    const userMessage = inputField.value.trim();
+  if (!userMessage) return;
 
-    if (!userMessage) return;
+  conversationHistory.push({ role: "user", content: userMessage });
 
-    
-    conversationHistory.push({ role: "user", content: userMessage });
+  appendMessage("user", userMessage);
 
-    
-    appendMessage("user", userMessage);
-
-    
-    const botResponse = await getBotResponse();
-
-    
+  getBotResponse().then((botResponse) => {
     conversationHistory.push({ role: "bot", content: botResponse });
-
-    
     appendMessage("bot", botResponse);
+  });
 
-    inputField.value = "";
+  inputField.value = "";
 }
 
 async function getBotResponse() {
-    try {
-        const response = await fetch(API_URL, {
-            method: "POST",
-            headers: {
-                "Authorization": `Bearer ${API_KEY}`,
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                model: "meta-llama/llama-3.2-3b-instruct:free",
-                messages: conversationHistory 
-            })
-        });
+  try {
+    const response = await fetch(API_URL, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${API_KEY}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        model: "meta-llama/llama-3.2-3b-instruct:free",
+        messages: conversationHistory,
+      }),
+    });
 
-        const data = await response.json();
-        return data.choices?.[0]?.message?.content || "I'm sorry, I couldn't understand that.";
-    } catch (error) {
-        console.error("API error:", error);
-        return "Oops! Something went wrong. Try again later.";
-    }
+    const data = await response.json();
+    return (
+      data.choices?.[0]?.message?.content ||
+      "I'm sorry, I couldn't understand that."
+    );
+  } catch (error) {
+    console.error("API error:", error);
+    return "Oops! Something went wrong. Try again later.";
+  }
 }
 
 function appendMessage(role, text) {
-    const chatWindow = document.getElementById("chat-window");
-    const messageContainer = document.createElement("div");
-    const messageElement = document.createElement("div");
-    const label = document.createElement("div");
+  const messagesDiv = document.getElementById("messages");
+  const messageContainer = document.createElement("div");
+  const label = document.createElement("div");
+  const messageElement = document.createElement("div");
 
-    label.textContent = role === "user" ? "You:" : "CyberBuddy:";
-    label.classList.add("message-label");
+  label.textContent = role === "user" ? "You:" : "CyberBuddy:";
+  label.classList.add("message-label");
 
-    if (role === "bot") {
-        messageElement.innerHTML = marked.parse(text);
-    } else {
-        messageElement.textContent = text;
-    }
+  messageElement.innerHTML = marked.parse(text);
+  messageElement.classList.add(
+    "message",
+    role === "user" ? "user-message" : "bot-message"
+  );
 
-    messageElement.classList.add("message", role === "user" ? "user-message" : "bot-message");
+  messageContainer.appendChild(label);
+  messageContainer.appendChild(messageElement);
+  messageContainer.classList.add("message-container");
 
-    messageContainer.appendChild(label);
-    messageContainer.appendChild(messageElement);
-    messageContainer.classList.add("message-container");
-
-    chatWindow.appendChild(messageContainer);
-    chatWindow.scrollTop = chatWindow.scrollHeight;
+  messagesDiv.appendChild(messageContainer);
+  messagesDiv.scrollTop = messagesDiv.scrollHeight;
 }
+
+document
+  .getElementById("userInput")
+  .addEventListener("keydown", function (event) {
+    if (event.key === "Enter" && !event.shiftKey) {
+      event.preventDefault();
+      sendMessage();
+    }
+  });
+
+var app = document.getElementById("header");
+
+var typewriter = new Typewriter(app, {
+  loop: false,
+  cursor: "_",
+});
+
+typewriter.typeString("CyberBuddy").start();
