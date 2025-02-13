@@ -46,6 +46,12 @@ function sendMessage() {
 
   appendMessage("user", userMessage);
 
+  if (window.firebase && firebase.analytics) {
+    firebase.analytics().logEvent("chatbot_used", {
+      timestamp: new Date().toISOString()
+    });
+  }
+
   getBotResponse().then((botResponse) => {
     conversationHistory.push({ role: "bot", content: botResponse });
     appendMessage("bot", botResponse);

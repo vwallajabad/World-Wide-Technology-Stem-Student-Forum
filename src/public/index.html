@@ -8,13 +8,12 @@
     <link rel="stylesheet" href="chatbot.css">
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script src="https://unpkg.com/typewriter-effect@2.3.1/dist/core.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-analytics.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-analytics-compat.js"></script>
 </head>
 
 <body>
     <h1 id="header"></h1>
-    
     <div class="chat-container" id="chatbot-container">
         <div class="messages" id="messages"></div>
         <div class="input-container">
@@ -51,7 +50,17 @@
                 }
             };
 
+            const firebaseConfig = {
+                apiKey: "AIzaSyAA0JHy0cT9q2YTzOniLl_tV8_Gjh0E1mc",
+                authDomain: "wwt-stem-student-forum.firebaseapp.com",
+                projectId: "wwt-stem-student-forum",
+                storageBucket: "wwt-stem-student-forum.firebasestorage.app",
+                messagingSenderId: "61290200062",
+                appId: "1:61290200062:web:a6e19e279bd912b2ee5eaf",
+                measurementId: "G-T3C74BWRE5"
+            };
             if (window.firebase) {
+                firebase.initializeApp(firebaseConfig);
                 firebase.analytics();
             }
         });
