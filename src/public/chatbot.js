@@ -1,5 +1,4 @@
-const API_KEY =
-  "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";
+const API_KEY = "XXX";
 const API_URL = "https://openrouter.ai/api/v1/chat/completions";
 
 let conversationHistory = [
@@ -69,7 +68,7 @@ async function getBotResponse() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        model: "meta-llama/llama-3.2-3b-instruct:free",
+        model: "google/gemini-2.0-flash-exp:free",
         messages: conversationHistory,
       }),
     });

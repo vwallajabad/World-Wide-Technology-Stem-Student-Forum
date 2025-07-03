@@ -1,4 +1,5 @@
 require("dotenv").config();
+const sleep = require('sleep');
 const fs = require("fs");
 const open = require("openai");
 const nodemailer = require("nodemailer");
@@ -15,7 +16,7 @@ async function generateEmailContent() {
       messages: [
         {
           role: "user",
-          content: `"Generate a JavaScript data object in JSON format with the following structure and content (make sure you use one company dont have paypal for on part and amazon or a different company for the HTML code of something):
+          content: `"Generate a JavaScript data object in JSON format with the following structure and content (make sure you use the company Focus School Software):
 1. Subject: A subject line that creates urgency, e.g., 'Immediate Action Required: Unusual Login Activity Detected'. USE SOMETHING BUT THE EXAMPLE (I would like you to use real company names)
 2. Sender: A sender name and email address, e.g., 'Google Security Team <security@example.com>’. USE SOMETHING BUT THE EXAMPLE (I would like you to use real company names)
 3. HTML Code: A professional-looking HTML email template with:
@@ -25,12 +26,16 @@ async function generateEmailContent() {
     * A call-to-action button with a link to https://example.com (use double quotes to wrap the link for href) LIKE THIS: href = "https://example.com"
     * for links USE ONLY example.com no other link even if its for a / page. I will use a replace on the json string to put my link
     * Styling using inline CSS.
+    * Dont have things like date or time. Make up location and IP if needed I would prefer if you use like account suspended or something like that ex. We have detected suspicious activity on your Focus School Software account. For your protection, we have temporarily suspended your account access.  Please verify your account immediately to prevent permanent suspension.  For a location use a famous city like Los Angeles, Saint Louis and IP-address use 192.168.0.1 DO NOT MENTION ANYTHING ABOUT CALLING ANYONE
+    * Logo: https://focusschoolsoftware.com/wp-content/uploads/2022/07/Focus_logo.png
+    * Account Access Temporarily Suspended  We have detected suspicious activity on your Focus School Software account. For your protection, we have temporarily suspended your account access.  Please verify your account immediately to prevent permanent suspension.  
 4. HTML Report: A standalone HTML document that explains how to spot scam emails, including:
     * Make it friendly and and something like "Uh no" and add like a conversation things. Say stuff like "You fell for a phishing attack but cyber buddy is here to help!" stuff like that
     * Also let them know about our chatbot named CyberBuddy by clicking the button on the bottom right.
     * A list of common scam email characteristics and also specific ones to the one generated.
     * DONT HAVE ANY LINKS
     * Styling using inline CSS.
+    * Don't make it too long!
 
 I want you to give me just the  json format of the following "subject":
 "sender":
@@ -108,7 +113,7 @@ async function sendEmails() {
   const encodedHtmlReport = encodeURIComponent(data.htmlreport);
   const updatedHtmlCode = data.htmlcode.replace(
     '"https://example.com"',
-    `https://wwt-stem-student-forum.web.app/?text=${encodedHtmlReport}`
+    `https://tinyurl.com/cyberFZW`
   );
 
   for (const recipient of emailList) {
