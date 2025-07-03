@@ -68,7 +68,7 @@ async function getBotResponse() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        model: "google/gemini-2.0-flash-exp:free",
+        model: "google/gemma-3-12b-it:free",
         messages: conversationHistory,
       }),
     });
