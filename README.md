@@ -1,9 +1,9 @@
-# UPDATE: [Won 3rd place at the WWT Stem Student Forum](https://www.wwt.com/press-release/five-high-schools-recognized-at-wwts-10th-annual-stem-student-forum)
+# UPDATE: [Won 3rd place at the WWT STEM Student Forum 2025](https://www.wwt.com/press-release/five-high-schools-recognized-at-wwts-10th-annual-stem-student-forum)
 
-# World-Wide Technology Stem Student Forum Project
+# World-Wide Technology STEM Student Forum Project
 
 ## Table of Contents
-- [World-Wide Technology Stem Student Forum Project](#world-wide-technology-stem-student-forum-project)
+- [World-Wide Technology STEM Student Forum Project](#world-wide-technology-stem-student-forum-project)
   - [Table of Contents](#table-of-contents)
   - [Project Overview](#project-overview)
     - [Technologies Used](#technologies-used)
@@ -14,7 +14,7 @@
 
 ## Project Overview
 
-The World-Wide Technology Stem Student Forum project is a comprehensive cybersecurity-focused platform designed to engage students in technology discussions and provide valuable resources. This project combines a web application with a chatbot interface, offering users a seamless experience for learning about various technological topics.
+The World-Wide Technology STEM Student Forum project is a comprehensive cybersecurity-focused platform designed to engage students in technology discussions and provide valuable resources. This project combines a web application with a chatbot interface, offering users a seamless experience for learning about various technological topics.
 
 ### Technologies Used
 
